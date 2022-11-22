@@ -14,7 +14,7 @@ import {
   User,
 } from "firebase/auth";
 
-import { auth } from "../services/firebase";
+import { auth } from "../Services/firebase";
 
 interface AuthContextProps {
   children: ReactNode;
@@ -22,6 +22,7 @@ interface AuthContextProps {
 
 interface AuthContextType {
   googleSignIn: () => void;
+  signOutApp: () => void;
   user: User | null;
 }
 
@@ -32,21 +33,21 @@ export const AuthContextProvider = ({ children }: AuthContextProps) => {
 
   const googleSignIn = async () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const user = result.user;
-        console.log(user);
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
-      });
+
+    try {
+      const result = await signInWithPopup(auth, provider);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const signOutApp = async () => {
+    try {
+      const result = await signOut(auth);
+      console.log(`Sucesso ao deslogar:${result} `);
+    } catch (error) {
+      console.log(`Erro ao deslogar:${error} `);
+    }
   };
 
   useEffect(() => {
@@ -59,7 +60,7 @@ export const AuthContextProvider = ({ children }: AuthContextProps) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ googleSignIn, user }}>
+    <AuthContext.Provider value={{ googleSignIn, user, signOutApp }}>
       {children}
     </AuthContext.Provider>
   );
