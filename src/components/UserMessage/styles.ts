@@ -5,13 +5,13 @@ interface StyleProps {
 }
 export const Container = styled.div<StyleProps>`
   width: 100%;
-  display: flex;
   margin: 1rem 0rem;
+
   > div {
     margin: 0 1rem;
     display: flex;
     align-items: center;
-    justify-content: end;
+    justify-content: ${(props) => (props.owner ? "end" : "start")};
     flex-direction: ${(props) => (props.owner ? "row-reverse" : "row")};
   }
 `;
@@ -19,6 +19,7 @@ export const Container = styled.div<StyleProps>`
 export const MessageContent = styled.p<StyleProps>`
   padding: 1rem;
   max-width: 80%;
+  border-radius: 12px;
   color: ${(props) =>
     props.owner ? props.theme["white"] : props.theme["grey"]};
   background-color: ${(props) =>
@@ -30,7 +31,7 @@ export const ImgUser = styled.div`
   flex-direction: column;
   gap: 0.3rem;
   align-items: center;
-  justify-content: center;
+  // justify-content: start;
   img {
     margin-right: 0.5rem;
     object-fit: cover;
