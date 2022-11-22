@@ -2,13 +2,14 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
-  max-width: 90rem;
+  max-width: 100rem;
   height: 800px;
-  margin: 5rem auto;
+  margin: 1rem auto;
 `;
 
 export const Sidebar = styled.div`
   width: 20%;
+  min-width: 17.5rem;
   height: 100%;
   background-color: ${(props) => props.theme.primary};
   border-radius: 16px;
@@ -59,6 +60,7 @@ export const Chat = styled.div`
 `;
 
 export const Content = styled.main`
+  width: 100%;
   height: 80%;
   display: flex;
   flex-direction: column;
