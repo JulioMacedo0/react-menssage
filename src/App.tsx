@@ -6,16 +6,13 @@ import { GlobalStyle } from "./styles/global";
 
 import { defaultTheme } from "./styles/themes/default";
 
-
-export const App = ()  => {
-
-
+export const App = () => {
   return (
     <ThemeProvider theme={defaultTheme}>
       <AuthContextProvider>
-        <GlobalStyle/>
+        <GlobalStyle />
         <BrowserRouter>
-          <Router/>
+          <Router />
         </BrowserRouter>
       </AuthContextProvider>
     </ThemeProvider>
