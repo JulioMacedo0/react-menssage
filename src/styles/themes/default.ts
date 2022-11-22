@@ -7,5 +7,7 @@ export const defaultTheme = {
   "white-600": "#f8f9fb",
   "title-name-user": "#434343",
   "input-chat-background": "#ebebeb",
+
+  grey: "#868686",
   online: "#6ecb44",
 } as const;
