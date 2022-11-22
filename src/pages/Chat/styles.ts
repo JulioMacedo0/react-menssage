@@ -62,6 +62,8 @@ export const Content = styled.main`
   height: 80%;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
 `;
 
 export const Footer = styled.footer`
@@ -125,6 +127,14 @@ export const ContainerButtons = styled.div`
   padding: 0 1rem;
   svg {
     color: #a0a0a0;
+  }
+
+  .paper-clip {
+    transform: rotate(-90deg);
+  }
+
+  .navigation-arrow {
+    transform: rotate(90deg);
   }
 
   > :last-child {
