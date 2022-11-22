@@ -5,6 +5,12 @@ export const Container = styled.div`
   max-width: 100rem;
   height: 800px;
   margin: 1rem auto;
+
+  svg {
+    :hover {
+      cursor: pointer;
+    }
+  }
 `;
 
 export const Sidebar = styled.div`
