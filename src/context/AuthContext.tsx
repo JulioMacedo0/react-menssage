@@ -8,13 +8,14 @@ import {
 import {
   GoogleAuthProvider,
   signInWithPopup,
-  signInWithRedirect,
   signOut,
   onAuthStateChanged,
   User,
 } from "firebase/auth";
 
-import { auth } from "../Services/firebase";
+import { doc, setDoc } from "firebase/firestore";
+
+import { auth, db } from "../Services/firebase";
 
 interface AuthContextProps {
   children: ReactNode;
@@ -36,6 +37,17 @@ export const AuthContextProvider = ({ children }: AuthContextProps) => {
 
     try {
       const result = await signInWithPopup(auth, provider);
+
+      const displayName = result.user.displayName;
+      const email = result.user.email;
+      const photoURL = result.user.photoURL;
+
+      await setDoc(doc(db, "Users", result.user.uid), {
+        uid: result.user.uid,
+        displayName,
+        email,
+        photoURL,
+      });
     } catch (error) {
       console.log(error);
     }
