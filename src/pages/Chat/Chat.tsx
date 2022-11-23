@@ -9,10 +9,10 @@ import {
   Smiley,
   Users,
 } from "phosphor-react";
-import { Input } from "../../Components/Input/Input";
-import { UserChat } from "../../Components/UserChat/UserChat";
-import { UserHeader } from "../../Components/UserHeader/UserHeader";
-import { UserMessage } from "../../Components/UserMessage/UserMessage";
+import { Input } from "../../components/Input/Input";
+import { UserChat } from "../../components/UserChat/UserChat";
+import { UserHeader } from "../../components/UserHeader/UserHeader";
+import { UserMessage } from "../../components/UserMessage/UserMessage";
 
 import * as S from "./styles";
 
