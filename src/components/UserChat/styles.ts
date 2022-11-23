@@ -10,7 +10,7 @@ export const Container = styled.div<UserChatProps>`
   height: 4rem;
   display: flex;
   padding: 1.2rem;
-
+  transition: background-color 0.8s;
   background-color: ${(props) =>
     props.selected ? props.theme["primary-light"] : props.theme.primary};
   justify-content: space-between;
@@ -29,6 +29,11 @@ export const Container = styled.div<UserChatProps>`
     color: ${(props) => props.theme.primary};
     font-weight: bold;
     font-size: 0.6rem;
+  }
+
+  :hover {
+    background-color: ${(props) => props.theme["primary-light"]};
+    cursor: pointer;
   }
 `;
 
