@@ -32,7 +32,7 @@ export const Container = styled.div<UserChatProps>`
   }
 
   :hover {
-    background-color: ${(props) => props.theme["prymary-hover"]};
+    background-color: ${(props) => props.theme["primary-hover"]};
     cursor: pointer;
   }
 `;
