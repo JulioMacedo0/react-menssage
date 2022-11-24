@@ -6,7 +6,7 @@ export const Container = styled.div`
   height: 800px;
   margin: 1rem auto;
 
-  svg {
+  > svg {
     :hover {
       cursor: pointer;
     }
