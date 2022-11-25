@@ -1,3 +1,4 @@
+
 import {
   AddressBook,
   Archive,
@@ -9,6 +10,7 @@ import {
   Smiley,
   Users,
 } from "phosphor-react";
+import { useEffect } from "react";
 import { Input } from "../../components/Input/Input";
 import { Line } from "../../components/Line/Line";
 import { UserChat } from "../../components/UserChat/UserChat";
@@ -21,8 +23,13 @@ import { useChat } from "../../context/ChatContext";
 import * as S from "./styles";
 
 export const Chat = () => {
-  const { signOutApp } = useAuth();
-  const { userFind, currentChat } = useChat();
+  const { signOutApp, user } = useAuth();
+  const { userFind, currentChat, getChats, chats } = useChat();
+
+
+  useEffect(() => {
+    getChats();
+  }, [user]);
 
   return (
     <S.Container>
@@ -53,16 +60,38 @@ export const Chat = () => {
           {userFind ? (
             <>
               <UserChat
-                onClick={() => console.log("test")}
-                image_url={userFind!.photoURL}
+                onClick={() => getChats()}
+                image_url={userFind?.photoURL}
                 lastMessage=" "
-                name={userFind!.displayName}
+                name={userFind?.displayName}
                 selected={false}
                 unreadMessage={0}
               />
               <Line />
             </>
           ) : null}
+
+
+          {
+            chats
+              ?   (chats.map(  (chat)  =>  {
+                const lenght = chat.messages.length - 1;
+
+
+                return (
+                  <UserChat
+                    key={chat.messages[lenght].message.uuid}
+                    image_url={chat.userInfos.photoURL}
+                    lastMessage={chat.messages[lenght].message.msg}
+                    name={chat.userInfos.displayName}
+                    selected={false}
+                    unreadMessage={0}
+                  />
+                );
+              }))
+              : null
+          }
+
         </S.Margin>
       </S.Sidebar>
 
