@@ -6,7 +6,7 @@ interface UserChatProps {
   lastMessage: string;
   unreadMessage: number;
   image_url: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export const UserChat = ({
@@ -15,7 +15,7 @@ export const UserChat = ({
   name,
   lastMessage,
   unreadMessage,
-  onClick,
+  onClick = () => console.log("No have a function"),
 }: UserChatProps) => {
   return (
     <S.Container
