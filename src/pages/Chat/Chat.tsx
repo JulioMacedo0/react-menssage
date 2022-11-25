@@ -10,7 +10,6 @@ import {
   Smiley,
   Users,
 } from "phosphor-react";
-import { useEffect } from "react";
 import { Input } from "../../components/Input/Input";
 import { Line } from "../../components/Line/Line";
 import { UserChat } from "../../components/UserChat/UserChat";
@@ -23,13 +22,9 @@ import { useChat } from "../../context/ChatContext";
 import * as S from "./styles";
 
 export const Chat = () => {
-  const { signOutApp, user } = useAuth();
-  const { userFind, currentChat, getChats, chats } = useChat();
+  const { signOutApp } = useAuth();
+  const { userFind, currentChat, chats } = useChat();
 
-
-  useEffect(() => {
-    getChats();
-  }, [user]);
 
   return (
     <S.Container>
@@ -60,7 +55,6 @@ export const Chat = () => {
           {userFind ? (
             <>
               <UserChat
-                onClick={() => getChats()}
                 image_url={userFind?.photoURL}
                 lastMessage=" "
                 name={userFind?.displayName}

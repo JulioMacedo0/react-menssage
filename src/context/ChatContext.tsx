@@ -3,10 +3,11 @@ import {
   doc,
   getDoc,
   getDocs,
+  onSnapshot,
   query,
   where,
 } from "firebase/firestore";
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { db } from "../Services/firebase";
 import { useAuth } from "./AuthContext";
 
@@ -15,9 +16,9 @@ interface ChatContextType {
   userFind: User | undefined;
   usetData: User | undefined;
   currentChat: CurrentChat | undefined;
-  getChats: () => void;
-  chats: ChatType[] | undefined;
   getUserData: (userID: string) => void;
+  chatsFireBase: ChatFirebaseType[] | undefined;
+  chats: ChatType[] | undefined
 }
 
 interface ChatContextProps {
@@ -84,55 +85,68 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
 
   const [userFind, setUserFind] = useState<User | undefined>();
   const [currentChat, setCurrentChat] = useState<CurrentChat | undefined>();
-  const [chats, setChats] = useState<ChatType[] | undefined>();
-
+  const [chatsFireBase, setChatsFireBase] = useState<ChatFirebaseType[] | undefined>();
+  const [chats , setChats] = useState<ChatType[] | undefined>();
   const [usetData, setUserData] =useState<User | undefined>();
 
+  const getChat = async  () => {
 
+    if(chatsFireBase){
 
+      const chats =  await Promise.all(chatsFireBase.map( async doc => {
 
-
-
-
-  const getChats = async () => {
-
-
-    const q = query(
-      collection(db, "Chats"),
-      where("users", "array-contains", user?.uid)
-    );
-
-    const querySnapshot = await  getDocs(q);
-
-
-    if (!querySnapshot.empty) {
-      const result =  querySnapshot.docs.map( (doc) => doc.data() as ChatFirebaseType);
-
-      const chats =  await Promise.all(result.map(async  (chat) => {
-
-        const userID = chat.users.find((userid) => userid != user?.uid);
+        const userID = doc.users.find((userid) => userid != user?.uid);
 
         const userChat = await getUserData(userID ?? "notUser");
 
-        const newChat = {
-          messages: chat.messages,
-          users: chat.users,
+        const newchatBody = {
+          messages: doc.messages,
+          users: doc.users,
           userInfos: {
             uuid: userChat?.uid,
             displayName: userChat?.displayName,
             photoURL: userChat?.photoURL,
           }
+
         };
 
-        return newChat;
+        return newchatBody;
       }));
-
-
       setChats(chats as ChatType[]);
-    } else {
-      console.log("not chats");
+    }else {
+      console.log("not possible get chats");
     }
+
+
+
+
   };
+
+  useEffect(() => {
+    getChat();
+  }, [chatsFireBase]);
+
+  useEffect(() => {
+
+    try {
+      const unsubscribe = onSnapshot(query(
+        collection(db, "Chats"),
+        where("users", "array-contains", user?.uid)) , (doc) => {
+
+        const chats =  doc.docs.map( doc => doc.data());
+        console.log(chats);
+        setChatsFireBase(chats as ChatFirebaseType[]);
+        return () => {
+          unsubscribe;
+        };
+      });
+
+    } catch (error) {
+      console.log(error);
+    }
+
+  },[user]);
+
 
   const getUserData = async (userID: string) => {
     const docRef = doc(db, "Users", userID);
@@ -163,7 +177,7 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
 
   return (
     <ChatContext.Provider
-      value={{ getUser, userFind, currentChat, getChats, chats, usetData, getUserData }}
+      value={{ getUser, userFind, currentChat, usetData, getUserData , chatsFireBase, chats}}
     >
       {children}
     </ChatContext.Provider>
