@@ -1,6 +1,6 @@
 import * as S from "./styles";
 
-interface UserMassageProps {
+interface UserMessageProps {
   msg: string;
   image_url: string;
   date: string;
@@ -12,7 +12,7 @@ export const UserMessage = ({
   image_url,
   date,
   owner,
-}: UserMassageProps) => {
+}: UserMessageProps) => {
   return (
     <S.Container owner={owner}>
       <div>
