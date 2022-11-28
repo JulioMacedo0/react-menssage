@@ -10,6 +10,7 @@ import {
   Smiley,
   Users,
 } from "phosphor-react";
+import { useRef } from "react";
 import { Input } from "../../components/Input/Input";
 import { Line } from "../../components/Line/Line";
 import { UserChat } from "../../components/UserChat/UserChat";
@@ -23,7 +24,7 @@ import * as S from "./styles";
 
 export const Chat = () => {
   const { signOutApp, user } = useAuth();
-  const { userFind, currentChat, chats, openChat, onChangeMessageInput, sendMessage } = useChat();
+  const { userFind, currentChat, chats, ref, openChat, onChangeMessageInput, sendMessage } = useChat();
 
 
   return (
@@ -99,7 +100,7 @@ export const Chat = () => {
         {currentChat ? (
           <>
             <UserHeader userName={currentChat.userName}/>
-            <S.Content>
+            <S.Content ref={ref}>
               {
                 currentChat.messages.map(message => {
                   const itsMe = message.message.owner.includes(user!.uid);
@@ -107,13 +108,12 @@ export const Chat = () => {
                     <UserMessage
                       key={message.message.uuid}
                       date="10.38AM"
-                      image_url={itsMe ?  user!.photoURL : currentChat.photoUrl}
+                      image_url={itsMe && user?.photoURL ?  user?.photoURL  : currentChat.photoUrl}
                       msg={message.message.msg}
                       owner={itsMe}
                     />
                   );
                 })
-
               }
             </S.Content>
             <S.Footer>
