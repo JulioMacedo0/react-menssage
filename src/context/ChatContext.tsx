@@ -1,12 +1,16 @@
+import { v4 as uuidv4 } from "uuid";
 import {
+  arrayUnion,
   collection,
   doc,
   getDoc,
   getDocs,
   onSnapshot,
   query,
+  serverTimestamp,
   updateDoc,
   where,
+  Timestamp
 } from "firebase/firestore";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { db } from "../Services/firebase";
@@ -207,18 +211,27 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
   const sendMessage = async ({e}: sendMessageType) => {
 
     e.preventDefault();
-    const docRef = doc(db, "Chats",where("users", "==", ["qEuvWh4rWqeB1QzPgzB4nRlXxIw1","SsQ7gDN1ILeiqiDlU9AUDIaZYAk2"]));
+    try {
+      const docRef = doc(db, "Chats", "dmQne6UD7aY0NAMTy0bi");
 
-    await updateDoc();
-    const q = query(collection(db, "Chats"), where("users", "==", ["qEuvWh4rWqeB1QzPgzB4nRlXxIw1","SsQ7gDN1ILeiqiDlU9AUDIaZYAk2"]));
+      await updateDoc(docRef, {
+        messages: arrayUnion({
+          message: {
+            data:  Timestamp.fromDate(new Date()),
+            msg: messageInput,
+            owner: user?.uid,
+            uuid: uuidv4()
+          }
+        })
+      });
 
-    const querySnapshot = await getDocs(q);
 
-    querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
+    } catch (error) {
+      console.log("Error update fields: ", error);
+    }
 
-      console.log("deu certo?:",doc.id);
-    });
+
+
   };
 
   return (
