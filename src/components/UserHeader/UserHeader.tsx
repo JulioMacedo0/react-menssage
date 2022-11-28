@@ -1,11 +1,15 @@
 import { Phone, VideoCamera } from "phosphor-react";
 import * as S from "./styles";
 
-export const UserHeader = () => {
+interface UserHedaerProps {
+  userName: string
+}
+
+export const UserHeader = ({userName}: UserHedaerProps) => {
   return (
     <S.Container>
       <div>
-        <span></span> <p>Elizabeth Nelson</p>
+        <span></span> <p>{userName}</p>
       </div>
 
       <div>
