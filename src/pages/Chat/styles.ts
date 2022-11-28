@@ -11,10 +11,18 @@ export const Container = styled.div`
       cursor: pointer;
     }
   }
+
+
+  @media (max-width: 1440px) {
+      width: 100vw;
+      height: 100vh;
+      margin: 0 0;
+
+    }
 `;
 
 export const Sidebar = styled.div`
-  width: 20%;
+  width: 30%;
   min-width: 17.5rem;
   height: 100%;
   background-color: ${(props) => props.theme.primary};
@@ -60,8 +68,7 @@ export const NavChat = styled.nav`
 `;
 
 export const Chat = styled.div`
-  width: 80%;
-  // height: 100%;
+  width: 70%;
   background-color: ${(props) => props.theme["grey-200"]};
 `;
 
