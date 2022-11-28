@@ -22,8 +22,8 @@ import { useChat } from "../../context/ChatContext";
 import * as S from "./styles";
 
 export const Chat = () => {
-  const { signOutApp } = useAuth();
-  const { userFind, currentChat, chats } = useChat();
+  const { signOutApp, user } = useAuth();
+  const { userFind, currentChat, chats, openChat, onChangeMessageInput, sendMessage } = useChat();
 
 
   return (
@@ -73,11 +73,16 @@ export const Chat = () => {
           chats
             ?   (chats.map(  (chat)  =>  {
               const lenght = chat.messages.length - 1;
-
+              const uuid = chat.users.find((userid) => userid != user?.uid) ?? "notFoundId";
 
               return (
                 <UserChat
                   key={chat.messages[lenght].message.uuid}
+                  onClick= {() => openChat({userName: chat.userInfos.displayName,
+                    uuid,
+                    messages: chat.messages,
+                    photoUrl: chat.userInfos.photoURL,
+                  })}
                   image_url={chat.userInfos.photoURL}
                   lastMessage={chat.messages[lenght].message.msg}
                   name={chat.userInfos.displayName}
@@ -93,70 +98,36 @@ export const Chat = () => {
       <S.Chat>
         {currentChat ? (
           <>
-            <UserHeader />
+            <UserHeader userName={currentChat.userName}/>
             <S.Content>
-              <UserMessage
-                date="10.35AM"
-                image_url="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80"
-                msg="Hi"
-                owner={false}
-              />
-              <UserMessage
-                date="10.36AM"
-                image_url="https://avatars.githubusercontent.com/u/57598810?v=4"
-                msg="Hiii"
-                owner={true}
-              />
-              <UserMessage
-                date="10.37AM"
-                image_url="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80"
-                msg="How do you do?"
-                owner={false}
-              />
-              <UserMessage
-                date="10.38AM"
-                image_url="https://avatars.githubusercontent.com/u/57598810?v=4"
-                msg="I'm fine, and you?"
-                owner={true}
-              />
-              <UserMessage
-                date="10.37AM"
-                image_url="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80"
-                msg="I'm pretty good !"
-                owner={false}
-              />
-              <UserMessage
-                date="10.38AM"
-                image_url="https://avatars.githubusercontent.com/u/57598810?v=4"
-                msg="haha it's good"
-                owner={true}
-              />
-              <UserMessage
-                date="10.39AM"
-                image_url="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80"
-                msg="Can you helpe me? "
-                owner={false}
-              />
+              {
+                currentChat.messages.map(message => {
+                  console.log(currentChat.photoUrl);
+                  const itsMe = message.message.owner.includes(user!.uid);
+                  return (
+                    <UserMessage
+                      key={message.message.uuid}
+                      date="10.38AM"
+                      image_url={itsMe ?  user!.photoURL : currentChat.photoUrl}
+                      msg={message.message.msg}
+                      owner={itsMe}
+                    />
+                  );
+                })
 
-              <UserMessage
-                date="10.38AM"
-                image_url="https://avatars.githubusercontent.com/u/57598810?v=4"
-                msg="Yeah, whats is?"
-                owner={true}
-              />
+              }
             </S.Content>
             <S.Footer>
-              <div className="w-input-container">
-                <div className="w-input-text-group">
-                  <div id="w-input-text" contentEditable></div>
-                  <div className="w-placeholder">Type a message</div>
-                </div>
-              </div>
-              <S.ContainerButtons>
-                <Smiley size={25} />
-                <Paperclip size={25} className="paper-clip" />
-                <NavigationArrow size={38} className="navigation-arrow" />
-              </S.ContainerButtons>
+              <form>
+
+                <input placeholder="Type a message..." onChange={(e) => onChangeMessageInput(e.target.value)}/>
+
+                <S.ContainerButtons>
+                  <Smiley size={25} />
+                  <Paperclip size={25} className="paper-clip" />
+                  <button onClick={(e) => sendMessage({e})}> <NavigationArrow size={25} className="navigation-arrow" /></button>
+                </S.ContainerButtons>
+              </form>
             </S.Footer>
           </>
         ) : (
