@@ -7,12 +7,11 @@ import {
   getDocs,
   onSnapshot,
   query,
-  serverTimestamp,
   updateDoc,
   where,
   Timestamp
 } from "firebase/firestore";
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useRef, useState } from "react";
 import { db } from "../Services/firebase";
 import { useAuth } from "./AuthContext";
 
@@ -21,11 +20,12 @@ interface ChatContextType {
   openChat: ({userName, uuid, messages}: openChatProps) => void;
   onChangeMessageInput: (message : string) => void;
   sendMessage: ({e} : sendMessageType) => void;
+  getUserData: (userID: string) => void;
   userFind: User | undefined;
   currentChat: openChatProps | undefined;
-  getUserData: (userID: string) => void;
   chatsFireBase: ChatFirebaseType[] | undefined;
   chats: ChatType[] | undefined
+  ref: React.MutableRefObject<null>
 }
 
 interface sendMessageType {
@@ -84,7 +84,7 @@ interface ChatFirebaseType {
 
 }
 
-interface messages {
+interface msgs {
       message: {
         data: string;
         msg: string;
@@ -96,7 +96,7 @@ interface messages {
 interface openChatProps {
   userName: string;
   uuid: string;
-  messages: messages[];
+  messages: msgs[];
   photoUrl: string
 }
 
@@ -105,6 +105,7 @@ const ChatContext = createContext({} as ChatContextType);
 export const ChatContextProvider = ({ children }: ChatContextProps) => {
   const { user } = useAuth();
 
+  const ref = useRef(null);
   const [userFind, setUserFind] = useState<User | undefined>();
   const [currentChat, setCurrentChat] = useState<openChatProps | undefined>();
   const [chatsFireBase, setChatsFireBase] = useState<ChatFirebaseType[] | undefined>();
@@ -143,6 +144,7 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
 
   useEffect(() => {
     getChat();
+    updateCurrentChat();
   }, [chatsFireBase]);
 
   useEffect(() => {
@@ -205,6 +207,8 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
   };
 
   const onChangeMessageInput = (message : string) => {
+
+    ref.current?.scrollIntoView({behavior: "smooth"});
     setMessageInput(message);
   };
 
@@ -212,31 +216,60 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
 
     e.preventDefault();
     try {
-      const docRef = doc(db, "Chats", "dmQne6UD7aY0NAMTy0bi");
 
-      await updateDoc(docRef, {
-        messages: arrayUnion({
-          message: {
-            data:  Timestamp.fromDate(new Date()),
-            msg: messageInput,
-            owner: user?.uid,
-            uuid: uuidv4()
-          }
-        })
-      });
 
+      const q = query(collection(db, "Chats"), where("users", "==", [user?.uid, currentChat?.uuid]));
+
+      const querySnapshot = await getDocs(q);
+
+      let docId = "notExist";
+
+      querySnapshot.forEach(  doc =>  docId = doc.id);
+
+      if(docId != "notExist"){
+        const docRef = doc(db, "Chats", docId);
+
+        await updateDoc(docRef, {
+          messages: arrayUnion({
+            message: {
+              data:  Timestamp.fromDate(new Date()),
+              msg: messageInput,
+              owner: user?.uid,
+              uuid: uuidv4()
+            }
+          })
+        });
+      }else {
+        console.log("docId not exist");
+      }
 
     } catch (error) {
       console.log("Error update fields: ", error);
     }
 
+  };
 
+  const updateCurrentChat = () => {
+    try {
+      chatsFireBase?.forEach(chat => {
 
+        const chatExist =   chat.users.includes(currentChat?.uuid ?? "chat not exist");
+
+        if(chatExist){
+          if(currentChat){
+            setCurrentChat({...currentChat, messages: chat.messages});
+          }
+        }
+      });
+
+    } catch (error) {
+      console.log("Error update current chat: ", error);
+    }
   };
 
   return (
     <ChatContext.Provider
-      value={{ getUser, userFind, currentChat,  getUserData , chatsFireBase, chats, openChat, onChangeMessageInput, sendMessage}}
+      value={{ getUser, userFind, currentChat,  getUserData , chatsFireBase, chats, openChat, onChangeMessageInput, sendMessage, ref}}
     >
       {children}
     </ChatContext.Provider>
