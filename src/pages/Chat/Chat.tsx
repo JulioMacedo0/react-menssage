@@ -23,7 +23,7 @@ import * as S from "./styles";
 
 export const Chat = () => {
   const { signOutApp, user } = useAuth();
-  const { userFind, currentChat, chats, ref, openChat, onChangeMessageInput, sendMessage } = useChat();
+  const { userFind, currentChat, chats,  openChat, onChangeMessageInput, sendMessage } = useChat();
 
 
   return (
@@ -99,7 +99,7 @@ export const Chat = () => {
         {currentChat ? (
           <>
             <UserHeader userName={currentChat.userName}/>
-            <S.Content ref={ref}>
+            <S.Content >
               {
                 currentChat.messages.map(message => {
                   const itsMe = message.message.owner.includes(user?.uid ?? "");
