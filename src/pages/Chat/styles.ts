@@ -87,55 +87,7 @@ export const Footer = styled.footer`
   align-items: center;
   justify-content: space-around;
 
-  .w-input-container {
-    display: flex;
-    align-items: center;
-    width: 80%;
-    height: 4rem;
-    box-sizing: border-box;
-    padding: 9px 18px 11px;
 
-    border: 1px solid ${(props) => props.theme["input-chat-background"]};
-  }
-  .w-input-text-group {
-    width: 100%;
-    position: relative;
-  }
-
-  .w-placeholder {
-    color: #a0a0a0;
-    top: 0;
-    pointer-events: none;
-    user-select: none;
-    position: absolute;
-    opacity: 0;
-    transition: 0.2s padding ease-in-out;
-  }
-
-  #w-input-text {
-    overflow-x: hidden;
-    overflow-y: auto;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    z-index: 1;
-    max-height: 40px;
-    min-height: 20px;
-    padding: 0 0 0 2px;
-    outline: 0;
-    transition: 0.2s padding ease-in-out;
-  }
-
-  #w-input-text:empty + .w-placeholder {
-    opacity: 1;
-  }
-
-  #w-input-text:focus + .w-placeholder {
-    padding: 0 6px 0px;
-  }
-
-  #w-input-text:focus {
-    padding: 0 6px 0px;
-  }
 
   form {
     margin-left: 1rem;
