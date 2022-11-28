@@ -14,7 +14,6 @@ import { useAuth } from "./AuthContext";
 interface ChatContextType {
   getUser: ({ e, userEmail }: GetUserType) => void;
   userFind: User | undefined;
-  usetData: User | undefined;
   currentChat: CurrentChat | undefined;
   getUserData: (userID: string) => void;
   chatsFireBase: ChatFirebaseType[] | undefined;
@@ -87,7 +86,7 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
   const [currentChat, setCurrentChat] = useState<CurrentChat | undefined>();
   const [chatsFireBase, setChatsFireBase] = useState<ChatFirebaseType[] | undefined>();
   const [chats , setChats] = useState<ChatType[] | undefined>();
-  const [usetData, setUserData] =useState<User | undefined>();
+
 
   const getChat = async  () => {
 
@@ -116,10 +115,6 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
     }else {
       console.log("not possible get chats");
     }
-
-
-
-
   };
 
   useEffect(() => {
@@ -134,7 +129,6 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
         where("users", "array-contains", user?.uid)) , (doc) => {
 
         const chats =  doc.docs.map( doc => doc.data());
-        console.log(chats);
         setChatsFireBase(chats as ChatFirebaseType[]);
         return () => {
           unsubscribe;
@@ -177,7 +171,7 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
 
   return (
     <ChatContext.Provider
-      value={{ getUser, userFind, currentChat, usetData, getUserData , chatsFireBase, chats}}
+      value={{ getUser, userFind, currentChat,  getUserData , chatsFireBase, chats}}
     >
       {children}
     </ChatContext.Provider>
