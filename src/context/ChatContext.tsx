@@ -11,7 +11,7 @@ import {
   where,
   Timestamp
 } from "firebase/firestore";
-import { createContext, ReactNode, useContext, useEffect, useRef, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect,  useState } from "react";
 import { db } from "../Services/firebase";
 import { useAuth } from "./AuthContext";
 
@@ -25,7 +25,7 @@ interface ChatContextType {
   currentChat: openChatProps | undefined;
   chatsFireBase: ChatFirebaseType[] | undefined;
   chats: ChatType[] | undefined
-  ref: React.MutableRefObject<null>
+
 }
 
 interface sendMessageType {
@@ -105,7 +105,6 @@ const ChatContext = createContext({} as ChatContextType);
 export const ChatContextProvider = ({ children }: ChatContextProps) => {
   const { user } = useAuth();
 
-  const ref = useRef(null);
   const [userFind, setUserFind] = useState<User | undefined>();
   const [currentChat, setCurrentChat] = useState<openChatProps | undefined>();
   const [chatsFireBase, setChatsFireBase] = useState<ChatFirebaseType[] | undefined>();
@@ -217,7 +216,7 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
     try {
 
 
-      const q = query(collection(db, "Chats"), where("users", "==", [user?.uid, currentChat?.uuid]));
+      const q = query(collection(db, "Chats"), where("users", "==", [  user?.uid,currentChat?.uuid]));
 
       const querySnapshot = await getDocs(q);
 
@@ -268,7 +267,7 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
 
   return (
     <ChatContext.Provider
-      value={{ getUser, userFind, currentChat,  getUserData , chatsFireBase, chats, openChat, onChangeMessageInput, sendMessage, ref}}
+      value={{ getUser, userFind, currentChat,  getUserData , chatsFireBase, chats, openChat, onChangeMessageInput, sendMessage}}
     >
       {children}
     </ChatContext.Provider>
