@@ -10,7 +10,6 @@ import {
   Smiley,
   Users,
 } from "phosphor-react";
-import { useRef } from "react";
 import { Input } from "../../components/Input/Input";
 import { Line } from "../../components/Line/Line";
 import { UserChat } from "../../components/UserChat/UserChat";
