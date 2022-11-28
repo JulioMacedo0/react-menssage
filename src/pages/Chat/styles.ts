@@ -88,6 +88,8 @@ export const Footer = styled.footer`
   justify-content: space-around;
 
   .w-input-container {
+    display: flex;
+    align-items: center;
     width: 80%;
     height: 4rem;
     box-sizing: border-box;
@@ -96,6 +98,7 @@ export const Footer = styled.footer`
     border: 1px solid ${(props) => props.theme["input-chat-background"]};
   }
   .w-input-text-group {
+    width: 100%;
     position: relative;
   }
 
@@ -133,15 +136,38 @@ export const Footer = styled.footer`
   #w-input-text:focus {
     padding: 0 6px 0px;
   }
+
+  form {
+    margin-left: 1rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+
+    input {
+
+    }
+  }
 `;
 
 export const ContainerButtons = styled.div`
   gap: 0.8rem;
   display: flex;
   align-items: center;
-  padding: 0 1rem;
-  svg {
+  padding: 0rem 1rem;
+
+  >button {
+   margin: 0.5rem 0rem;
+    border: none;
+  }
+ > svg {
     color: #a0a0a0;
+    cursor: pointer;
+    transition:all 0.5s ease-out;
+    :hover {
+      filter: brightness(0.7);
+    }
   }
 
   .paper-clip {
