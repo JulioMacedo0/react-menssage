@@ -102,7 +102,6 @@ export const Chat = () => {
             <S.Content>
               {
                 currentChat.messages.map(message => {
-                  console.log(currentChat.photoUrl);
                   const itsMe = message.message.owner.includes(user!.uid);
                   return (
                     <UserMessage
