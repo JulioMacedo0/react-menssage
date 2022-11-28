@@ -23,7 +23,7 @@ export const UserChat = ({
       unreadMessage={unreadMessage}
       onClick={() => onClick()}
     >
-      <div className="rotating-border ">
+      <div>
         <S.Profile>
           <img src={image_url} alt="" referrerPolicy="no-referrer" />
           <div>
