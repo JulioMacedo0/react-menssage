@@ -5,6 +5,7 @@ import {
   getDocs,
   onSnapshot,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
@@ -13,11 +14,18 @@ import { useAuth } from "./AuthContext";
 
 interface ChatContextType {
   getUser: ({ e, userEmail }: GetUserType) => void;
+  openChat: ({userName, uuid, messages}: openChatProps) => void;
+  onChangeMessageInput: (message : string) => void;
+  sendMessage: ({e} : sendMessageType) => void;
   userFind: User | undefined;
-  currentChat: CurrentChat | undefined;
+  currentChat: openChatProps | undefined;
   getUserData: (userID: string) => void;
   chatsFireBase: ChatFirebaseType[] | undefined;
   chats: ChatType[] | undefined
+}
+
+interface sendMessageType {
+  e: React.FormEvent<EventTarget>;
 }
 
 interface ChatContextProps {
@@ -29,11 +37,6 @@ interface User {
   email: string;
   photoURL: string;
   uid: string;
-}
-
-interface CurrentChat {
-  userName: string;
-  uuid: string;
 }
 
 interface GetUserType {
@@ -77,15 +80,32 @@ interface ChatFirebaseType {
 
 }
 
+interface messages {
+      message: {
+        data: string;
+        msg: string;
+        owner: string;
+        uuid: string;
+      };
+}
+
+interface openChatProps {
+  userName: string;
+  uuid: string;
+  messages: messages[];
+  photoUrl: string
+}
+
 const ChatContext = createContext({} as ChatContextType);
 
 export const ChatContextProvider = ({ children }: ChatContextProps) => {
   const { user } = useAuth();
 
   const [userFind, setUserFind] = useState<User | undefined>();
-  const [currentChat, setCurrentChat] = useState<CurrentChat | undefined>();
+  const [currentChat, setCurrentChat] = useState<openChatProps | undefined>();
   const [chatsFireBase, setChatsFireBase] = useState<ChatFirebaseType[] | undefined>();
   const [chats , setChats] = useState<ChatType[] | undefined>();
+  const [messageInput , setMessageInput] = useState("");
 
 
   const getChat = async  () => {
@@ -155,10 +175,21 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
     }
   };
 
+  const openChat = ({userName, uuid, messages, photoUrl}: openChatProps) => {
+    const current = {
+      userName,
+      uuid,
+      messages,
+      photoUrl,
+    };
+    setCurrentChat(current);
+
+  };
+
   const getUser = async ({ e, userEmail }: GetUserType) => {
     e.preventDefault();
 
-    const q = query(collection(db, "Users"));
+    const q = query(collection(db, "Users"), where("email", "==", userEmail));
 
     const querySnapshot = await getDocs(q);
 
@@ -169,9 +200,30 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
     });
   };
 
+  const onChangeMessageInput = (message : string) => {
+    setMessageInput(message);
+  };
+
+  const sendMessage = async ({e}: sendMessageType) => {
+
+    e.preventDefault();
+    const docRef = doc(db, "Chats",where("users", "==", ["qEuvWh4rWqeB1QzPgzB4nRlXxIw1","SsQ7gDN1ILeiqiDlU9AUDIaZYAk2"]));
+
+    await updateDoc();
+    const q = query(collection(db, "Chats"), where("users", "==", ["qEuvWh4rWqeB1QzPgzB4nRlXxIw1","SsQ7gDN1ILeiqiDlU9AUDIaZYAk2"]));
+
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+
+      console.log("deu certo?:",doc.id);
+    });
+  };
+
   return (
     <ChatContext.Provider
-      value={{ getUser, userFind, currentChat,  getUserData , chatsFireBase, chats}}
+      value={{ getUser, userFind, currentChat,  getUserData , chatsFireBase, chats, openChat, onChangeMessageInput, sendMessage}}
     >
       {children}
     </ChatContext.Provider>
