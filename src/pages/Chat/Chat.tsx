@@ -102,7 +102,7 @@ export const Chat = () => {
             <S.Content ref={ref}>
               {
                 currentChat.messages.map(message => {
-                  const itsMe = message.message.owner.includes(user!.uid);
+                  const itsMe = message.message.owner.includes(user?.uid ?? "");
                   return (
                     <UserMessage
                       key={message.message.uuid}
