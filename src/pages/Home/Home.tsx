@@ -5,7 +5,7 @@ import { Navigate } from "react-router-dom";
 
 export const Home = () => {
   const { googleSignIn, user } = useAuth();
-  console.log(`dados do usuario: ${user?.displayName}`);
+
 
   return (
     <S.Container>
