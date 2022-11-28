@@ -66,27 +66,28 @@ export const Chat = () => {
           ) : null}
 
 
-          {
-            chats
-              ?   (chats.map(  (chat)  =>  {
-                const lenght = chat.messages.length - 1;
-
-
-                return (
-                  <UserChat
-                    key={chat.messages[lenght].message.uuid}
-                    image_url={chat.userInfos.photoURL}
-                    lastMessage={chat.messages[lenght].message.msg}
-                    name={chat.userInfos.displayName}
-                    selected={false}
-                    unreadMessage={0}
-                  />
-                );
-              }))
-              : null
-          }
-
         </S.Margin>
+
+
+        {
+          chats
+            ?   (chats.map(  (chat)  =>  {
+              const lenght = chat.messages.length - 1;
+
+
+              return (
+                <UserChat
+                  key={chat.messages[lenght].message.uuid}
+                  image_url={chat.userInfos.photoURL}
+                  lastMessage={chat.messages[lenght].message.msg}
+                  name={chat.userInfos.displayName}
+                  selected={false}
+                  unreadMessage={0}
+                />
+              );
+            }))
+            : null
+        }
       </S.Sidebar>
 
       <S.Chat>
