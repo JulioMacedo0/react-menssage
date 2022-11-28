@@ -208,7 +208,6 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
 
   const onChangeMessageInput = (message : string) => {
 
-    ref.current?.scrollIntoView({behavior: "smooth"});
     setMessageInput(message);
   };
 
