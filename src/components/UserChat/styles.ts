@@ -35,6 +35,14 @@ export const Container = styled.div<UserChatProps>`
     background-color: ${(props) => props.theme["primary-hover"]};
     cursor: pointer;
   }
+
+  > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+  }
 `;
 
 export const Profile = styled.div`
