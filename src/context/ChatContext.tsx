@@ -224,6 +224,15 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
 
       querySnapshot.forEach(  doc =>  docId = doc.id);
 
+      if(docId == "notExist"){
+        const q = query(collection(db, "Chats"), where("users", "==", [ currentChat?.uuid,  user?.uid]));
+
+        const querySnapshot = await getDocs(q);
+
+        querySnapshot.forEach(  doc =>  docId = doc.id);
+
+      }
+
       if(docId != "notExist"){
         const docRef = doc(db, "Chats", docId);
 
