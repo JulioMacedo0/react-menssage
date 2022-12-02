@@ -23,7 +23,7 @@ import * as S from "./styles";
 
 export const Chat = () => {
   const { signOutApp, user } = useAuth();
-  const { userFind, currentChat, chats,  openChat, onChangeMessageInput, sendMessage } = useChat();
+  const { userFind, currentChat, chats,  openChat, onChangeMessageInput, sendMessage, messagesEndRef, messageInput } = useChat();
 
 
   return (
@@ -114,11 +114,12 @@ export const Chat = () => {
                   );
                 })
               }
+              <div ref={messagesEndRef}/>
             </S.Content>
             <S.Footer>
               <form>
 
-                <input placeholder="Type a message..." onChange={(e) => onChangeMessageInput(e.target.value)}/>
+                <input placeholder="Type a message..." onChange={(e) => onChangeMessageInput(e.target.value)} value={messageInput}/>
 
                 <S.ContainerButtons>
                   <Smiley size={25} />
