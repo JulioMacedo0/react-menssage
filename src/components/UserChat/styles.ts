@@ -60,6 +60,7 @@ export const Profile = styled.div`
     flex-direction: column;
     justify-content: center;
     gap: 0.2rem;
+
     h2 {
       font-size: 0.85rem;
       color: ${(props) => props.theme["white"]};
@@ -71,7 +72,7 @@ export const Profile = styled.div`
       color: ${(props) => props.theme["white"]};
       font-weight: normal;
       text-overflow: ellipsis;
-      overflow-y: hidden;
+      overflow: hidden;
       display: -webkit-box;
       -webkit-line-clamp: 1; /* number of lines to show */
       line-clamp: 1;
