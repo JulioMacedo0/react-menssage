@@ -11,7 +11,7 @@ import {
   where,
   Timestamp
 } from "firebase/firestore";
-import { createContext, ReactNode, useContext, useEffect,  useState } from "react";
+import { createContext, ReactNode, RefObject, useContext, useEffect,  useRef,  useState } from "react";
 import { db } from "../Services/firebase";
 import { useAuth } from "./AuthContext";
 
@@ -21,11 +21,13 @@ interface ChatContextType {
   onChangeMessageInput: (message : string) => void;
   sendMessage: ({e} : sendMessageType) => void;
   getUserData: (userID: string) => void;
+  scrollToBottom: () => void;
   userFind: User | undefined;
   currentChat: openChatProps | undefined;
   chatsFireBase: ChatFirebaseType[] | undefined;
-  chats: ChatType[] | undefined
-
+  chats: ChatType[] | undefined;
+  messagesEndRef: RefObject<HTMLDivElement> | null;
+  messageInput: string;
 }
 
 interface sendMessageType {
@@ -111,6 +113,11 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
   const [chats , setChats] = useState<ChatType[] | undefined>();
   const [messageInput , setMessageInput] = useState("");
 
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const getChat = async  () => {
 
@@ -141,9 +148,15 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
     }
   };
 
-  useEffect(() => {
-    getChat();
-    updateCurrentChat();
+  const updateChat = async () => {
+    await getChat();
+    await  updateCurrentChat();
+    await scrollToBottom();
+  };
+
+  useEffect(  () => {
+    updateChat();
+
   }, [chatsFireBase]);
 
   useEffect(() => {
@@ -212,6 +225,8 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
 
   const sendMessage = async ({e}: sendMessageType) => {
 
+
+
     e.preventDefault();
     try {
 
@@ -246,6 +261,8 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
             }
           })
         });
+        scrollToBottom();
+        setMessageInput("");
       }else {
         console.log("docId not exist");
       }
@@ -256,7 +273,7 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
 
   };
 
-  const updateCurrentChat = () => {
+  const updateCurrentChat =  () => {
     try {
       chatsFireBase?.forEach(chat => {
 
@@ -276,7 +293,20 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
 
   return (
     <ChatContext.Provider
-      value={{ getUser, userFind, currentChat,  getUserData , chatsFireBase, chats, openChat, onChangeMessageInput, sendMessage}}
+      value={{
+        openChat,
+        onChangeMessageInput,
+        sendMessage,
+        getUser,
+        getUserData ,
+        scrollToBottom,
+        userFind,
+        currentChat,
+        chatsFireBase,
+        chats,
+        messagesEndRef,
+        messageInput,
+      }}
     >
       {children}
     </ChatContext.Provider>
