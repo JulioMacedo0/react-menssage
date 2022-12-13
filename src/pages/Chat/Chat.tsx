@@ -10,6 +10,7 @@ import {
   Smiley,
   Users,
 } from "phosphor-react";
+import { v4 as uuidv4 } from "uuid";
 import { useEffect } from "react";
 import { Input } from "../../components/Input/Input";
 import { Line } from "../../components/Line/Line";
@@ -24,7 +25,7 @@ import * as S from "./styles";
 
 export const Chat = () => {
   const { signOutApp, user } = useAuth();
-  const { scrollToBottom ,userFind, currentChat, chats,  openChat, onChangeMessageInput, sendMessage, messagesEndRef, messageInput } = useChat();
+  const { createChat ,scrollToBottom ,userFind, currentChat, chats,  openChat, onChangeMessageInput, sendMessage, messagesEndRef, messageInput } = useChat();
 
   useEffect(() => {
     scrollToBottom();
@@ -60,6 +61,7 @@ export const Chat = () => {
           {userFind ? (
             <>
               <UserChat
+                onClick={ () => createChat(userFind.uid)}
                 image_url={userFind?.photoURL}
                 lastMessage=" "
                 name={userFind?.displayName}
@@ -78,11 +80,17 @@ export const Chat = () => {
           chats
             ?   (chats.map(  (chat)  =>  {
               const lenght = chat.messages.length - 1;
+
+
               const uuid = chat.users.find((userid) => userid != user?.uid) ?? "notFoundId";
+              const uuidMessage = chat.messages[lenght]?.message.uuid || uuidv4();
+              const lastMessage = chat.messages[lenght]?.message.msg || "";
+              const unreadMessage = chat.messages.filter( msg => msg.message.read == false && msg.message.owner != user?.uid);
+
 
               return (
                 <UserChat
-                  key={chat.messages[lenght].message.uuid}
+                  key={uuidMessage}
                   onClick= {() =>  {
                     openChat({userName: chat.userInfos.displayName,
                       uuid,
@@ -92,10 +100,10 @@ export const Chat = () => {
                     scrollToBottom();
                   }}
                   image_url={chat.userInfos.photoURL}
-                  lastMessage={chat.messages[lenght].message.msg}
+                  lastMessage={lastMessage}
                   name={chat.userInfos.displayName}
                   selected={false}
-                  unreadMessage={0}
+                  unreadMessage={unreadMessage.length}
                 />
               );
             }))
