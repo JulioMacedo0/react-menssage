@@ -9,7 +9,8 @@ import {
   query,
   updateDoc,
   where,
-  Timestamp
+  Timestamp,
+  setDoc
 } from "firebase/firestore";
 import { createContext, ReactNode, RefObject, useContext, useEffect,  useRef,  useState } from "react";
 import { db } from "../Services/firebase";
@@ -22,6 +23,7 @@ interface ChatContextType {
   sendMessage: ({e} : sendMessageType) => void;
   getUserData: (userID: string) => void;
   scrollToBottom: () => void;
+  createChat: (userUid : string) => void;
   userFind: User | undefined;
   currentChat: openChatProps | undefined;
   chatsFireBase: ChatFirebaseType[] | undefined;
@@ -58,6 +60,7 @@ interface ChatType {
         msg: string;
         owner: string;
         uuid: string;
+        read: boolean;
       };
     }
   ];
@@ -79,6 +82,7 @@ interface ChatFirebaseType {
         msg: string;
         owner: string;
         uuid: string;
+        read: boolean;
       };
     }
   ];
@@ -92,6 +96,7 @@ interface msgs {
         msg: string;
         owner: string;
         uuid: string;
+        read: boolean;
       };
 }
 
@@ -117,6 +122,17 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+
+  const createChat = async (userUid : string) => {
+
+    await setDoc(doc(db, "Chats", `${userUid}${user?.uid}`), {
+      messages: [],
+      users:[user?.uid, userUid],
+    });
+
+    setUserFind(undefined);
   };
 
   const getChat = async  () => {
@@ -257,6 +273,7 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
               data:  Timestamp.fromDate(new Date()),
               msg: messageInput,
               owner: user?.uid,
+              read: false,
               uuid: uuidv4()
             }
           })
@@ -294,6 +311,7 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
   return (
     <ChatContext.Provider
       value={{
+        createChat,
         openChat,
         onChangeMessageInput,
         sendMessage,
