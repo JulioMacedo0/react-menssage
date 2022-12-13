@@ -10,6 +10,7 @@ import {
   Smiley,
   Users,
 } from "phosphor-react";
+import { useEffect } from "react";
 import { Input } from "../../components/Input/Input";
 import { Line } from "../../components/Line/Line";
 import { UserChat } from "../../components/UserChat/UserChat";
@@ -23,7 +24,11 @@ import * as S from "./styles";
 
 export const Chat = () => {
   const { signOutApp, user } = useAuth();
-  const { userFind, currentChat, chats,  openChat, onChangeMessageInput, sendMessage, messagesEndRef, messageInput } = useChat();
+  const { scrollToBottom ,userFind, currentChat, chats,  openChat, onChangeMessageInput, sendMessage, messagesEndRef, messageInput } = useChat();
+
+  useEffect(() => {
+    scrollToBottom();
+  },[currentChat]);
 
 
   return (
@@ -78,11 +83,14 @@ export const Chat = () => {
               return (
                 <UserChat
                   key={chat.messages[lenght].message.uuid}
-                  onClick= {() => openChat({userName: chat.userInfos.displayName,
-                    uuid,
-                    messages: chat.messages,
-                    photoUrl: chat.userInfos.photoURL,
-                  })}
+                  onClick= {() =>  {
+                    openChat({userName: chat.userInfos.displayName,
+                      uuid,
+                      messages: chat.messages,
+                      photoUrl: chat.userInfos.photoURL,
+                    });
+                    scrollToBottom();
+                  }}
                   image_url={chat.userInfos.photoURL}
                   lastMessage={chat.messages[lenght].message.msg}
                   name={chat.userInfos.displayName}
