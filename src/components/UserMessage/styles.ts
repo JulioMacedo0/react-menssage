@@ -20,6 +20,7 @@ export const MessageContent = styled.p<StyleProps>`
   padding: 1rem;
   max-width: 80%;
   border-radius: 12px;
+  word-wrap: break-word;
   color: ${(props) =>
     props.owner ? props.theme["white"] : props.theme["grey"]};
   background-color: ${(props) =>
