@@ -92,10 +92,13 @@ export const Chat = () => {
                 <UserChat
                   key={uuidMessage}
                   onClick= {() =>  {
-                    openChat({userName: chat.userInfos.displayName,
+                    openChat({
+                      chatId: chat.id,
+                      userName: chat.userInfos.displayName,
                       uuid,
                       messages: chat.messages,
                       photoUrl: chat.userInfos.photoURL,
+                      unreadMessage: unreadMessage.length
                     });
                     scrollToBottom();
                   }}
