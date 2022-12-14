@@ -177,7 +177,7 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
   const updateChat = async () => {
     await getChat();
     await  updateCurrentChat();
-    await scrollToBottom();
+  //  await scrollToBottom();
   };
 
   useEffect(  () => {
