@@ -70,6 +70,10 @@ export const NavChat = styled.nav`
 export const Chat = styled.div`
   width: 70%;
   background-color: ${(props) => props.theme["grey-200"]};
+
+  > svg {
+    color: ${(props) => props.theme["primary-hover"]};
+  }
 `;
 
 export const Content = styled.main`
