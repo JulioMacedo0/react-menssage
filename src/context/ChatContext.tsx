@@ -18,12 +18,14 @@ import { useAuth } from "./AuthContext";
 
 interface ChatContextType {
   getUser: ({ e, userEmail }: GetUserType) => void;
+  readMessages: () => void;
   openChat: ({userName, uuid, messages, unreadMessage, chatId}: openChatProps) => void;
   onChangeMessageInput: (message : string) => void;
   sendMessage: ({e} : sendMessageType) => void;
   getUserData: (userID: string) => void;
   scrollToBottom: () => void;
   createChat: (userUid : string) => void;
+  unreadMessages: number;
   userFind: User | undefined;
   currentChat: openChatProps | undefined;
   chatsFireBase: ChatFirebaseType[] | undefined;
@@ -121,18 +123,49 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
   const [chatsFireBase, setChatsFireBase] = useState<ChatFirebaseType[] | undefined>();
   const [chats , setChats] = useState<ChatType[] | undefined>();
   const [messageInput , setMessageInput] = useState("");
+  const [unreadMessages, setUnreadMessages] = useState(0);
+
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView();
   };
+
 
 
   const readMessages = async () => {
+    const message = currentChat?.messages.map(msg => {
+      const message = {
+        message: {
+          data: msg.message.data,
+          msg: msg.message.msg,
+          owner: msg.message.owner,
+          read: true,
+          uuid: msg.message.uuid,
+        }
+      };
+
+      return message;
+    });
+
+    if(currentChat){
+
+
+      const docRef = doc(db, "Chats", currentChat.chatId);
+      try {
+
+        await updateDoc(docRef, {
+          messages: message,
+        });
+      } catch (error) {
+        console.log("Read messages error: ", error);
+      }
+    }
+
+
 
   };
-
 
   const createChat = async (userUid : string) => {
 
@@ -177,7 +210,6 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
   const updateChat = async () => {
     await getChat();
     await  updateCurrentChat();
-  //  await scrollToBottom();
   };
 
   useEffect(  () => {
@@ -195,7 +227,7 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
 
         const chats =  doc.docs.map( (doc)  =>  ({...doc.data(), id: doc.id}) );
 
-        console.log(chats);
+
         setChatsFireBase(chats as ChatFirebaseType[]);
 
 
@@ -315,6 +347,8 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
 
         if(chatExist){
           if(currentChat){
+            const unreadMessage =  chat.messages.filter( msg => msg.message.read == false && msg.message.owner != user?.uid);
+            setUnreadMessages(unreadMessage.length);
             setCurrentChat({...currentChat, messages: chat.messages});
           }
         }
@@ -328,6 +362,7 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
   return (
     <ChatContext.Provider
       value={{
+        readMessages,
         createChat,
         openChat,
         onChangeMessageInput,
@@ -335,6 +370,7 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
         getUser,
         getUserData ,
         scrollToBottom,
+        unreadMessages,
         userFind,
         currentChat,
         chatsFireBase,

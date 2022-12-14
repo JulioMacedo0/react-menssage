@@ -28,18 +28,47 @@ import * as S from "./styles";
 
 export const Chat = () => {
   const { signOutApp, user } = useAuth();
-  const { createChat ,scrollToBottom ,userFind, currentChat, chats,  openChat, onChangeMessageInput, sendMessage, messagesEndRef, messageInput } = useChat();
+  const {unreadMessages  ,readMessages ,createChat ,scrollToBottom ,userFind, currentChat, chats,  openChat, onChangeMessageInput, sendMessage, messagesEndRef, messageInput } = useChat();
   const [scrollOnBottom , setScrollOnBottom] = useState(false);
+
+  const chatId = document.getElementById("chat");
+
+  const scrollCheck = chatId?.scrollHeight > chatId?.clientHeight || false;
+
+
   useEffect(() => {
     scrollToBottom();
+  }, []);
+
+  useEffect(() => {
+
+    if(!scrollCheck){
+
+      readMessages();
+    }
+
+    if(scrollOnBottom){
+      scrollToBottom();
+
+    }
+
   },[currentChat]);
 
 
   const handleScroll = async (event: React.UIEvent<HTMLDivElement>) => {
     const { scrollHeight, scrollTop, clientHeight } = event.currentTarget;
     const scrollPosition = scrollHeight - scrollTop - clientHeight;
+
+
+
     if (scrollPosition <= 0) {
       setScrollOnBottom(true);
+
+      if(unreadMessages > 0){
+
+        readMessages();
+      }
+
     }else {
       setScrollOnBottom(false);
     }
@@ -102,6 +131,7 @@ export const Chat = () => {
               const unreadMessage = chat.messages.filter( msg => msg.message.read == false && msg.message.owner != user?.uid);
 
 
+
               return (
                 <UserChat
                   key={uuidMessage}
@@ -133,7 +163,7 @@ export const Chat = () => {
         {currentChat ? (
           <>
             <UserHeader userName={currentChat.userName}/>
-            <S.Content onScroll={ handleScroll} >
+            <S.Content onScroll={ handleScroll}  id="chat">
 
               {
                 currentChat.messages.map(message => {
