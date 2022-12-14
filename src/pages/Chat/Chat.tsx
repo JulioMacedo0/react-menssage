@@ -2,6 +2,7 @@
 import {
   AddressBook,
   Archive,
+  ArrowDown,
   ClockCounterClockwise,
   DotsThreeVertical,
   NavigationArrow,
@@ -11,7 +12,7 @@ import {
   Users,
 } from "phosphor-react";
 import { v4 as uuidv4 } from "uuid";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "../../components/Input/Input";
 import { Line } from "../../components/Line/Line";
 import { UserChat } from "../../components/UserChat/UserChat";
@@ -23,13 +24,26 @@ import { useChat } from "../../context/ChatContext";
 
 import * as S from "./styles";
 
+
+
 export const Chat = () => {
   const { signOutApp, user } = useAuth();
   const { createChat ,scrollToBottom ,userFind, currentChat, chats,  openChat, onChangeMessageInput, sendMessage, messagesEndRef, messageInput } = useChat();
-
+  const [scrollOnBottom , setScrollOnBottom] = useState(false);
   useEffect(() => {
     scrollToBottom();
   },[currentChat]);
+
+
+  const handleScroll = async (event: React.UIEvent<HTMLDivElement>) => {
+    const { scrollHeight, scrollTop, clientHeight } = event.currentTarget;
+    const scrollPosition = scrollHeight - scrollTop - clientHeight;
+    if (scrollPosition <= 0) {
+      setScrollOnBottom(true);
+    }else {
+      setScrollOnBottom(false);
+    }
+  };
 
 
   return (
@@ -111,11 +125,13 @@ export const Chat = () => {
         }
       </S.Sidebar>
 
-      <S.Chat>
+      <S.Chat >
+
         {currentChat ? (
           <>
             <UserHeader userName={currentChat.userName}/>
-            <S.Content >
+            <S.Content onScroll={ handleScroll} >
+
               {
                 currentChat.messages.map(message => {
                   const itsMe = message.message.owner.includes(user?.uid ?? "");
@@ -143,6 +159,7 @@ export const Chat = () => {
                   <button onClick={(e) => sendMessage({e})}> <NavigationArrow size={25} className="navigation-arrow" /></button>
                 </S.ContainerButtons>
               </form>
+
             </S.Footer>
           </>
         ) : (
