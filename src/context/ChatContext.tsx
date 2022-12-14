@@ -18,7 +18,7 @@ import { useAuth } from "./AuthContext";
 
 interface ChatContextType {
   getUser: ({ e, userEmail }: GetUserType) => void;
-  openChat: ({userName, uuid, messages}: openChatProps) => void;
+  openChat: ({userName, uuid, messages, unreadMessage, chatId}: openChatProps) => void;
   onChangeMessageInput: (message : string) => void;
   sendMessage: ({e} : sendMessageType) => void;
   getUserData: (userID: string) => void;
@@ -53,6 +53,7 @@ interface GetUserType {
 }
 
 interface ChatType {
+  id: string
   messages: [
     {
       message: {
@@ -87,6 +88,7 @@ interface ChatFirebaseType {
     }
   ];
   users: Array<string>;
+  id: string
 
 }
 
@@ -101,10 +103,12 @@ interface msgs {
 }
 
 interface openChatProps {
+  chatId: string;
   userName: string;
   uuid: string;
   messages: msgs[];
   photoUrl: string
+  unreadMessage: number;
 }
 
 const ChatContext = createContext({} as ChatContextType);
@@ -125,12 +129,17 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
   };
 
 
+  const readMessages = async () => {
+
+  };
+
+
   const createChat = async (userUid : string) => {
 
     await setDoc(doc(db, "Chats", `${userUid}${user?.uid}`), {
       messages: [],
       users:[user?.uid, userUid],
-    });
+    }, {merge : true});
 
     setUserFind(undefined);
   };
@@ -146,6 +155,7 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
         const userChat = await getUserData(userID ?? "notUser");
 
         const newchatBody = {
+          id: doc.id,
           messages: doc.messages,
           users: doc.users,
           userInfos: {
@@ -182,15 +192,20 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
         collection(db, "Chats"),
         where("users", "array-contains", user?.uid)) , (doc) => {
 
-        const chats =  doc.docs.map( doc => doc.data());
+
+        const chats =  doc.docs.map( (doc)  =>  ({...doc.data(), id: doc.id}) );
+
+        console.log(chats);
         setChatsFireBase(chats as ChatFirebaseType[]);
+
+
         return () => {
           unsubscribe;
         };
       });
 
     } catch (error) {
-      console.log(error);
+      console.log("Error get chats",error);
     }
 
   },[user]);
@@ -209,12 +224,14 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
     }
   };
 
-  const openChat = ({userName, uuid, messages, photoUrl}: openChatProps) => {
+  const openChat = ({userName, uuid, messages, photoUrl, unreadMessage, chatId}: openChatProps) => {
     const current = {
+      chatId,
       userName,
       uuid,
       messages,
       photoUrl,
+      unreadMessage,
     };
     setCurrentChat(current);
 
