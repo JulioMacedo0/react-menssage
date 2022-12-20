@@ -16,6 +16,15 @@ export const Container = styled.div<UserChatProps>`
   justify-content: space-between;
   align-items: center;
 
+  background-image: linear-gradient(${(props) => props.theme["primary-hover"]},${(props) => props.theme["primary-hover"]});
+  background-size: 0 100%;
+  background-repeat: no-repeat;
+  transition: .4s;
+  :hover {
+   background-size: 100% 100%;
+    cursor: pointer;
+  }
+
   span {
     display: ${(props) => (props.unreadMessage ? "flex" : "none")};
 
@@ -31,10 +40,7 @@ export const Container = styled.div<UserChatProps>`
     font-size: 0.6rem;
   }
 
-  :hover {
-    background-color: ${(props) => props.theme["primary-hover"]};
-    cursor: pointer;
-  }
+
 
   > div {
     width: 100%;
