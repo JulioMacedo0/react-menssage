@@ -68,6 +68,7 @@ export const NavChat = styled.nav`
 `;
 
 export const Chat = styled.div`
+position: relative;
   width: 70%;
   background-color: ${(props) => props.theme["grey-200"]};
 
@@ -86,6 +87,9 @@ export const Content = styled.main`
 `;
 
 export const Footer = styled.footer`
+width: 100%;
+  position: absolute;
+  bottom: 0;
   background-color: ${(props) => props.theme["input-chat-background"]};
   display: flex;
   align-items: center;
