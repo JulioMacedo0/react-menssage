@@ -2,7 +2,6 @@
 import {
   AddressBook,
   Archive,
-  ArrowDown,
   ClockCounterClockwise,
   DotsThreeVertical,
   NavigationArrow,
@@ -34,7 +33,7 @@ export const Chat = () => {
 
   const chatId = document.getElementById("chat");
 
-  const scrollCheck = chatId?.scrollHeight > chatId?.clientHeight || false;
+  const scrollCheck = chatId?.scrollHeight && chatId?.scrollHeight > chatId?.clientHeight || false;
 
 
   useEffect(() => {
