@@ -64,6 +64,7 @@ interface ChatType {
         owner: string;
         uuid: string;
         read: boolean;
+        received: boolean;
       };
     }
   ];
@@ -134,6 +135,28 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
     messagesEndRef.current?.scrollIntoView();
   };
 
+
+  const confirmReceivedMessages = async () => {
+
+    const message = chatsFireBase?.map( chats => {
+
+      chats.messages.map( msg => {
+
+        const message = {
+          message: {
+            data: msg.message.data,
+            msg: msg.message.msg,
+            owner: msg.message.owner,
+            read: msg.message.read,
+            uuid: msg.message.uuid,
+            received: true
+          }
+        };
+        return message;
+      });
+
+    });
+  };
 
 
   const readMessages = async () => {
