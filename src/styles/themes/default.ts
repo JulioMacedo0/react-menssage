@@ -7,9 +7,11 @@ export const defaultTheme = {
 
   grey: "#868686",
   "grey-200": "#f8f9fb",
+  "grey-500" : "#dcdcdc",
 
   white: "#fff",
   "white-600": "#f8f9fb",
+
 
   "message-unread": "	#000",
 
