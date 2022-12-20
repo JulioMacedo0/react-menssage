@@ -59,7 +59,7 @@ interface ChatType {
   messages: [
     {
       message: {
-        data: string;
+        data: Timestamp;
         msg: string;
         owner: string;
         uuid: string;
@@ -82,7 +82,7 @@ interface ChatFirebaseType {
   messages: [
     {
       message: {
-        data: string;
+        data: Timestamp;
         msg: string;
         owner: string;
         uuid: string;
@@ -98,7 +98,7 @@ interface ChatFirebaseType {
 
 interface msgs {
       message: {
-        data: string;
+        data: Timestamp;
         msg: string;
         owner: string;
         uuid: string;
