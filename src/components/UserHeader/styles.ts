@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  border-top-right-radius: 1rem;
   width: 100%;
   background-color: ${(props) => props.theme["white-600"]};
   display: flex;
@@ -23,7 +24,7 @@ export const Container = styled.div`
     svg {
       color: ${(props) => props.theme.white};
       background-color: ${(props) => props.theme.primary};
-      padding: 8px;
+      padding:0.5rem;
       border-radius: 50%;
     }
 
