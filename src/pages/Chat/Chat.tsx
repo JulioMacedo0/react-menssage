@@ -48,7 +48,6 @@ export const Chat = () => {
 
     if(scrollOnBottom){
       scrollToBottom();
-
     }
 
   },[currentChat]);
@@ -63,7 +62,7 @@ export const Chat = () => {
     if (scrollPosition <= 0) {
       setScrollOnBottom(true);
 
-      if(unreadMessages > 0){
+      if(currentChat && currentChat?.unreadMessage > 0  ){
 
         readMessages();
       }

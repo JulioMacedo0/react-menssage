@@ -175,7 +175,7 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
       return message;
     });
 
-    if(currentChat && currentChat.unreadMessage > 0){
+    if(currentChat && currentChat?.unreadMessage > 0){
 
 
       const docRef = doc(db, "Chats", currentChat.chatId);
@@ -373,10 +373,11 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
         const chatExist =   chat.users.includes(currentChat?.uuid ?? "chat not exist");
 
         if(chatExist){
+
           if(currentChat){
             const unreadMessage =  chat.messages.filter( msg => msg.message.read == false && msg.message.owner != user?.uid);
             setUnreadMessages(unreadMessage.length);
-            setCurrentChat({...currentChat, messages: chat.messages});
+            setCurrentChat({...currentChat, messages: chat.messages, unreadMessage: unreadMessage.length});
           }
         }
       });
