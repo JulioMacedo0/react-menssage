@@ -30,6 +30,7 @@ export const Chat = () => {
   const { signOutApp, user } = useAuth();
   const {unreadMessages  ,readMessages ,createChat ,scrollToBottom ,userFind, currentChat, chats,  openChat, onChangeMessageInput, sendMessage, messagesEndRef, messageInput } = useChat();
   const [scrollOnBottom , setScrollOnBottom] = useState(false);
+  const [selected , setSelected] = useState(false);
 
   const chatId = document.getElementById("chat");
 
@@ -42,11 +43,8 @@ export const Chat = () => {
 
   useEffect(() => {
 
-    if(!scrollCheck){
-
-
+    if(!scrollCheck ){
       readMessages();
-
     }
 
     if(scrollOnBottom){
@@ -147,11 +145,12 @@ export const Chat = () => {
                       unreadMessage: unreadMessage.length
                     });
                     scrollToBottom();
+                    setSelected(!selected);
                   }}
                   image_url={chat.userInfos.photoURL}
                   lastMessage={lastMessage}
                   name={chat.userInfos.displayName}
-                  selected={false}
+                  selected={chat.id == currentChat?.chatId}
                   unreadMessage={unreadMessage.length}
                 />
               );
