@@ -168,10 +168,12 @@ export const Chat = () => {
               {
                 currentChat.messages.map(message => {
                   const itsMe = message.message.owner.includes(user?.uid ?? "");
+                  const timeStamp = message.message.data.toDate().toLocaleTimeString("en-US");
+
                   return (
                     <UserMessage
                       key={message.message.uuid}
-                      date="10.38AM"
+                      date={timeStamp}
                       image_url={itsMe && user?.photoURL ?  user?.photoURL  : currentChat.photoUrl}
                       msg={message.message.msg}
                       read= {message.message.read}
