@@ -24,7 +24,7 @@ export const UserMessage = ({
           <img src={image_url} alt="" />
           <span>{date}</span>
         </S.ImgUser>
-        <S.MessageContent owner={owner} read={read}>{msg} {owner && <Check size={22} />}</S.MessageContent>
+        <S.MessageContent owner={owner} read={read}>{msg} {owner && <Check size={18} />}</S.MessageContent>
 
       </div>
     </S.Container>
