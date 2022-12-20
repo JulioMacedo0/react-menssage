@@ -27,7 +27,7 @@ import * as S from "./styles";
 
 export const Chat = () => {
   const { signOutApp, user } = useAuth();
-  const {unreadMessages  ,readMessages ,createChat ,scrollToBottom ,userFind, currentChat, chats,  openChat, onChangeMessageInput, sendMessage, messagesEndRef, messageInput } = useChat();
+  const {readMessages ,createChat ,scrollToBottom ,userFind, currentChat, chats,  openChat, onChangeMessageInput, sendMessage, messagesEndRef, messageInput } = useChat();
   const [scrollOnBottom , setScrollOnBottom] = useState(false);
   const [selected , setSelected] = useState(false);
 
