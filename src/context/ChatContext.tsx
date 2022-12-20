@@ -175,7 +175,7 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
       return message;
     });
 
-    if(currentChat){
+    if(currentChat && currentChat.unreadMessage > 0){
 
 
       const docRef = doc(db, "Chats", currentChat.chatId);
