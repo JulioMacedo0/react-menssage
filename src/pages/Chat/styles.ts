@@ -49,14 +49,14 @@ export const HeaderSidebar = styled.div`
   > div {
     display: flex;
     justify-content: space-between;
-
+    gap: 0.5rem;
     svg {
       color: ${(props) => props.theme["white"]};
       cursor: pointer;
-      transition: color 0.8s;
+
 
     &:hover {
-      color: ${(props) => props.theme["primary-light"]};
+      color: ${(props) => props.theme["grey-500"]};
     }
     }
   }
@@ -72,6 +72,11 @@ export const NavChat = styled.nav`
 
   svg {
     color: ${(props) => props.theme["white"]};
+
+    &:hover {
+      cursor: pointer;
+      color: ${(props) => props.theme["grey-500"]};
+    }
   }
 `;
 
