@@ -52,6 +52,12 @@ export const HeaderSidebar = styled.div`
 
     svg {
       color: ${(props) => props.theme["white"]};
+      cursor: pointer;
+      transition: color 0.8s;
+
+    &:hover {
+      color: ${(props) => props.theme["primary-light"]};
+    }
     }
   }
 `;
