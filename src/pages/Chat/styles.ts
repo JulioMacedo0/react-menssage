@@ -26,7 +26,8 @@ export const Sidebar = styled.div`
   min-width: 17.5rem;
   height: 100%;
   background-color: ${(props) => props.theme.primary};
-  border-radius: 16px;
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
 `;
 
 export const Margin = styled.div`
@@ -56,6 +57,7 @@ export const HeaderSidebar = styled.div`
 `;
 
 export const NavChat = styled.nav`
+
   margin-top: 1rem;
   margin-bottom: 1rem;
   display: flex;
@@ -68,8 +70,12 @@ export const NavChat = styled.nav`
 `;
 
 export const Chat = styled.div`
-position: relative;
+
+  position: relative;
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
   width: 70%;
+
   background-color: ${(props) => props.theme["grey-200"]};
 
   > svg {
@@ -87,6 +93,7 @@ export const Content = styled.main`
 `;
 
 export const Footer = styled.footer`
+  border-bottom-right-radius: 1rem;
 width: 100%;
   position: absolute;
   bottom: 0;
@@ -98,6 +105,7 @@ width: 100%;
 
 
   form {
+
     margin-left: 1rem;
     width: 100%;
     display: flex;
@@ -106,7 +114,18 @@ width: 100%;
 
 
     input {
+      flex: 1;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      border: solid 1px transparent;
+      color: ${(props) => props.theme["grey"]};
 
+     &:focus {
+      outline: none;
+      border:  ${(props) => props.theme["primary"]};
+      border-style: solid;
+      border-width: 1px;
+     }
     }
   }
 `;
