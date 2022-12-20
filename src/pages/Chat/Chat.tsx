@@ -3,10 +3,10 @@ import {
   AddressBook,
   Archive,
   ClockCounterClockwise,
-  DotsThreeVertical,
   NavigationArrow,
   Paperclip,
   PlusCircle,
+  SignOut,
   Smiley,
   Users,
 } from "phosphor-react";
@@ -83,8 +83,9 @@ export const Chat = () => {
 
             <div>
               <PlusCircle size={32} weight="fill" />
-              <DotsThreeVertical
-                size={32}
+              <SignOut
+                alt="logout"
+                size={30}
                 weight="fill"
                 onClick={() => signOutApp()}
               />
