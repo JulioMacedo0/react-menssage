@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 interface StyleProps {
   owner: boolean;
+  read: boolean;
 }
 export const Container = styled.div<StyleProps>`
   width: 100%;
@@ -17,6 +18,8 @@ export const Container = styled.div<StyleProps>`
 `;
 
 export const MessageContent = styled.p<StyleProps>`
+
+  position: relative;
   padding: 1rem;
   max-width: 80%;
   border-radius: 12px;
@@ -25,6 +28,14 @@ export const MessageContent = styled.p<StyleProps>`
     props.owner ? props.theme["white"] : props.theme["grey"]};
   background-color: ${(props) =>
     props.owner ? props.theme.primary : props.theme["input-chat-background"]};
+
+    >svg {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  color: ${(props) =>
+    props.read ? props.theme["white"] : props.theme["grey"]};
+  }
 `;
 
 export const ImgUser = styled.div`
