@@ -6,13 +6,14 @@ export const Container = styled.form`
   height: 2.5rem;
   align-items: center;
   justify-content: space-between;
-  border-radius: 8px;
+  border-radius: 0.5rem;
 
   background-color: ${(props) => props.theme["white"]};
   button {
     background-color: ${(props) => props.theme["primary-light"]};
     color: ${(props) => props.theme["white"]};
-
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
     border: none;
     height: 100%;
   }
