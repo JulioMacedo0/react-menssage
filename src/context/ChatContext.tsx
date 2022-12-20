@@ -86,6 +86,7 @@ interface ChatFirebaseType {
         owner: string;
         uuid: string;
         read: boolean;
+        received: boolean;
       };
     }
   ];
@@ -101,6 +102,7 @@ interface msgs {
         owner: string;
         uuid: string;
         read: boolean;
+        received: boolean;
       };
 }
 
@@ -143,6 +145,7 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
           owner: msg.message.owner,
           read: true,
           uuid: msg.message.uuid,
+          received: msg.message.received
         }
       };
 
@@ -323,7 +326,8 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
               msg: messageInput,
               owner: user?.uid,
               read: false,
-              uuid: uuidv4()
+              received: false,
+              uuid: uuidv4(),
             }
           })
         });
