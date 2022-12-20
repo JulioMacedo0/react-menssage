@@ -44,7 +44,9 @@ export const Chat = () => {
 
     if(!scrollCheck){
 
+
       readMessages();
+
     }
 
     if(scrollOnBottom){
@@ -174,6 +176,7 @@ export const Chat = () => {
                       date="10.38AM"
                       image_url={itsMe && user?.photoURL ?  user?.photoURL  : currentChat.photoUrl}
                       msg={message.message.msg}
+                      read= {message.message.read}
                       owner={itsMe}
                     />
                   );
