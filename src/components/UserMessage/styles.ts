@@ -25,14 +25,14 @@ export const MessageContent = styled.p<StyleProps>`
   border-radius: 12px;
   word-wrap: break-word;
   color: ${(props) =>
-    props.owner ? props.theme["white"] : props.theme["grey"]};
+    props.owner ? props.theme["white"] : props.theme["message-unread"]};
   background-color: ${(props) =>
     props.owner ? props.theme.primary : props.theme["input-chat-background"]};
 
     >svg {
   position: absolute;
   bottom: 0;
-  right: 0;
+  right: 0.2rem;
   color: ${(props) =>
     props.read ? props.theme["white"] : props.theme["message-unread"]};
   }
