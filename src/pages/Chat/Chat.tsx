@@ -159,7 +159,7 @@ export const Chat = () => {
       </S.Sidebar>
 
       <S.Chat >
-        {!scrollOnBottom && <CaretCircleDown size={32} className="arrowDown" weight="fill" onClick={() =>  scrollToBottom()}/>}
+        {!scrollOnBottom && currentChat && <CaretCircleDown size={32} className="arrowDown" weight="fill" onClick={() =>  scrollToBottom()}/>}
         {currentChat ? (
           <>
             <UserHeader userName={currentChat.userName}/>
