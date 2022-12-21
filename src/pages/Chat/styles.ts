@@ -89,11 +89,11 @@ export const NavChat = styled.nav`
 export const Chat = styled.div`
 
 @keyframes example {
-  0%   { right:-0.9rem; top:42rem; opacity: 0.5;}
+  0%   { right:-0.9rem; top:15rem; opacity: 0.5;}
  // 25%  { right:0.7rem; top:42rem;}
  // 50%  { right:0.9rem; top:42rem;}
  // 75%  { right:1.2rem; top:42rem;}
-  100% { right:1.5rem; top:42rem; opacity: 1;}
+  100% { right:1.5rem; top:15rem; opacity: 1;}
 }
 
   position: relative;
@@ -110,7 +110,7 @@ export const Chat = styled.div`
     color: ${(props) => props.theme["primary"]};
     position: absolute;
     right: 1.5rem;
-    top: 42rem;
+    top: 15rem;
     opacity: 1;
     animation-name: example;
     animation-duration: 1s;
