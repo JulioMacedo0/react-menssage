@@ -34,7 +34,7 @@ export const MessageContent = styled.p<StyleProps>`
   bottom: 0;
   right: 0;
   color: ${(props) =>
-    props.read ? props.theme["white"] : props.theme["grey"]};
+    props.read ? props.theme["white"] : props.theme["message-unread"]};
   }
 `;
 
