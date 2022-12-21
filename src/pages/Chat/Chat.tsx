@@ -131,7 +131,7 @@ export const Chat = () => {
               const unreadMessage = chat.messages.filter( msg => msg.message.read == false && msg.message.owner != user?.uid);
               const owner = chat.messages[lenght]?.message.owner == user?.uid;
               const date = chat.messages[lenght]?.message.data.toDate().toLocaleTimeString("en-US", {hour: "2-digit", minute: "2-digit"});
-
+              const read = chat.messages[lenght]?.message.read;
               return (
                 <UserChat
                   key={uuidMessage}
@@ -151,8 +151,9 @@ export const Chat = () => {
                   name={chat.userInfos.displayName}
                   selected={chat.id == currentChat?.chatId}
                   unreadMessage={unreadMessage.length}
-                  owner= {owner}
-                  date= {date}
+                  owner={owner}
+                  date={date}
+                  read={read}
                 />
               );
             }))
