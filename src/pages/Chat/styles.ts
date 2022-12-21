@@ -100,12 +100,14 @@ export const Chat = styled.div`
   border-top-right-radius: 1rem;
   border-bottom-right-radius: 1rem;
   width: 70%;
-
+  display: flex;
+  flex-direction: column;
   background-color: ${(props) => props.theme["grey-200"]};
 
   > svg {
     color: ${(props) => props.theme["primary-hover"]};
   }
+
   .arrowDown {
     color: ${(props) => props.theme["primary"]};
     position: absolute;
@@ -126,11 +128,13 @@ export const Chat = styled.div`
 export const Content = styled.main`
 
   width: 100%;
-  height: 80%;
+  height: 75%;
+  flex: 0.9;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
+
 
 
 `;
