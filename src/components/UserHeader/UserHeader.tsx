@@ -8,7 +8,7 @@ interface UserHedaerProps {
 export const UserHeader = ({userName}: UserHedaerProps) => {
   return (
     <S.Container>
-      <div>
+      <div className="nameDiv">
         <span></span> <p>{userName}</p>
       </div>
 
