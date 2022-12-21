@@ -1,9 +1,10 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+
   display: flex;
   max-width: 100rem;
-  height: 800px;
+  height: 95vh;
   margin: 1rem auto;
   overflow-x: hidden;
   > svg {
@@ -31,9 +32,11 @@ export const Sidebar = styled.div`
 `;
 
 export const Margin = styled.div`
+
   margin: 0 1.2rem;
 `;
 export const HeaderSidebar = styled.div`
+
   display: flex;
   justify-content: space-between;
   justify-items: center;
@@ -47,6 +50,7 @@ export const HeaderSidebar = styled.div`
     color: ${(props) => props.theme["white"]};
   }
   > div {
+
     display: flex;
     justify-content: space-between;
     gap: 0.5rem;
