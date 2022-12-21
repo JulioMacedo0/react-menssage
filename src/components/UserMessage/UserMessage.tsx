@@ -21,7 +21,7 @@ export const UserMessage = ({
     <S.Container owner={owner} read={read}>
       <div>
         <S.ImgUser>
-          <img src={image_url} alt="" />
+          <img  referrerPolicy="no-referrer" src={image_url} alt="" />
           <span>{date}</span>
         </S.ImgUser>
         <S.MessageContent owner={owner} read={read}>{msg} {owner && <Check size={18} />}</S.MessageContent>
