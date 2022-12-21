@@ -80,7 +80,17 @@ export const NavChat = styled.nav`
   }
 `;
 
+
+
 export const Chat = styled.div`
+
+@keyframes example {
+  0%   { right:-0.9rem; top:42rem; opacity: 0.5;}
+ // 25%  { right:0.7rem; top:42rem;}
+ // 50%  { right:0.9rem; top:42rem;}
+ // 75%  { right:1.2rem; top:42rem;}
+  100% { right:1.5rem; top:42rem; opacity: 1;}
+}
 
   position: relative;
   border-top-right-radius: 1rem;
@@ -92,20 +102,39 @@ export const Chat = styled.div`
   > svg {
     color: ${(props) => props.theme["primary-hover"]};
   }
+  .arrowDown {
+    color: ${(props) => props.theme["primary"]};
+    position: absolute;
+    right: 1.5rem;
+    top: 42rem;
+    opacity: 1;
+    animation-name: example;
+    animation-duration: 1s;
+    transition: transform .5s ease-in-out;
+    &:hover {
+      cursor: pointer;
+      transform: rotate(360deg);
+      color: ${(props) => props.theme["primary-hover"]};
+    }
+  }
 `;
 
 export const Content = styled.main`
+
   width: 100%;
   height: 80%;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
+
+
 `;
 
 export const Footer = styled.footer`
+
   border-bottom-right-radius: 1rem;
-width: 100%;
+  width: 100%;
   position: absolute;
   bottom: 0;
   background-color: ${(props) => props.theme["input-chat-background"]};
@@ -154,9 +183,10 @@ export const ContainerButtons = styled.div`
  > svg {
     color: #a0a0a0;
     cursor: pointer;
-    transition:all 0.5s ease-out;
+    transition:color 0.5s ease-out ;
     :hover {
-      filter: brightness(0.7);
+      color: ${(props) => props.theme["primary-hover"]};
+
     }
   }
 
@@ -175,6 +205,12 @@ export const ContainerButtons = styled.div`
     border-radius: 100%;
     padding: 8px;
     color: white;
+    transition: color 0.5s ease-out ;
     background-color: ${(props) => props.theme.primary};
+
+    :hover {
+      color:#a0a0a0;
+      ;
+    }
   }
 `;
