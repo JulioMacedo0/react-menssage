@@ -13,7 +13,7 @@ export const defaultTheme = {
   "white-600": "#f8f9fb",
 
 
-  "message-unread": "	#000",
+  "message-unread": "	#FFA500",
 
   "title-name-user": "#434343",
   "input-chat-background": "#ebebeb",
