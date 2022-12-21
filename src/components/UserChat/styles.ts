@@ -10,7 +10,6 @@ export const Container = styled.div<UserChatProps>`
   width: 100%;
   height: 4rem;
   display: flex;
-  // padding: 1.2rem;
   transition: background-color 0.8s;
   background-color: ${(props) =>
     props.selected ? props.theme["primary-light"] : props.theme.primary};
@@ -101,7 +100,7 @@ export const rowMessage = styled.div<UserChatProps>`
 
   svg {
     color: ${(props) =>
-    props.read ? props.theme["white"] : props.theme["message-unread"]};
+      props.read ? props.theme["white"] : props.theme["message-unread"]};
   }
   > div {
     display: flex;
@@ -117,7 +116,7 @@ export const rowName = styled.div`
   align-items: center;
 
   p {
-    color: ${(props) => props.theme["white"] };
+    color: ${(props) => props.theme["white"]};
     font-size: 0.75rem;
     margin-right: 0.5rem;
   }

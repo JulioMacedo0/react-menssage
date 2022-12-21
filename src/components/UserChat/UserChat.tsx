@@ -45,14 +45,17 @@ export const UserChat = ({
               selected={selected}
               unreadMessage={unreadMessage}
             >
-
-              <div> {owner && <Check size={18} weight="bold"/>}  <p>{lastMessage}</p> </div>
-              <div><span>{unreadMessage}</span></div>
-
+              <div>
+                {" "}
+                {owner && <Check size={18} weight="bold" />}{" "}
+                <p>{lastMessage}</p>{" "}
+              </div>
+              <div>
+                <span>{unreadMessage}</span>
+              </div>
             </S.rowMessage>
           </div>
         </S.Profile>
-
       </div>
     </S.Container>
   );

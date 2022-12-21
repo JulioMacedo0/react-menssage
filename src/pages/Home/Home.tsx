@@ -6,7 +6,6 @@ import { Navigate } from "react-router-dom";
 export const Home = () => {
   const { googleSignIn, user } = useAuth();
 
-
   return (
     <S.Container>
       {user ? (
