@@ -2,6 +2,7 @@
 import {
   AddressBook,
   Archive,
+  CaretCircleDown,
   ClockCounterClockwise,
   NavigationArrow,
   Paperclip,
@@ -29,7 +30,7 @@ export const Chat = () => {
   const { signOutApp, user } = useAuth();
   const {readMessages ,createChat ,scrollToBottom ,userFind, currentChat, chats,  openChat, onChangeMessageInput, sendMessage, messagesEndRef, messageInput } = useChat();
   const [scrollOnBottom , setScrollOnBottom] = useState(false);
-  const [selected , setSelected] = useState(false);
+
 
   const chatId = document.getElementById("chat");
 
@@ -144,7 +145,6 @@ export const Chat = () => {
                       unreadMessage: unreadMessage.length
                     });
                     scrollToBottom();
-                    setSelected(!selected);
                   }}
                   image_url={chat.userInfos.photoURL}
                   lastMessage={lastMessage}
@@ -159,11 +159,12 @@ export const Chat = () => {
       </S.Sidebar>
 
       <S.Chat >
-
+        {!scrollOnBottom && <CaretCircleDown size={32} className="arrowDown" weight="fill" onClick={() =>  scrollToBottom()}/>}
         {currentChat ? (
           <>
             <UserHeader userName={currentChat.userName}/>
             <S.Content onScroll={ handleScroll}  id="chat">
+
 
               {
                 currentChat.messages.map(message => {
@@ -181,9 +182,13 @@ export const Chat = () => {
                     />
                   );
                 })
+
               }
+
               <div ref={messagesEndRef}/>
+
             </S.Content>
+
             <S.Footer>
               <form>
 
