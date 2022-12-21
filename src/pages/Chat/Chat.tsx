@@ -129,8 +129,8 @@ export const Chat = () => {
               const uuidMessage = chat.messages[lenght]?.message.uuid || uuidv4();
               const lastMessage = chat.messages[lenght]?.message.msg || "";
               const unreadMessage = chat.messages.filter( msg => msg.message.read == false && msg.message.owner != user?.uid);
-
-
+              const owner = chat.messages[lenght]?.message.owner == user?.uid;
+              const date = chat.messages[lenght]?.message.data.toDate().toLocaleTimeString("en-US", {hour: "2-digit", minute: "2-digit"});
 
               return (
                 <UserChat
@@ -151,6 +151,8 @@ export const Chat = () => {
                   name={chat.userInfos.displayName}
                   selected={chat.id == currentChat?.chatId}
                   unreadMessage={unreadMessage.length}
+                  owner= {owner}
+                  date= {date}
                 />
               );
             }))
@@ -169,7 +171,7 @@ export const Chat = () => {
               {
                 currentChat.messages.map(message => {
                   const itsMe = message.message.owner.includes(user?.uid ?? "");
-                  const timeStamp = message.message.data.toDate().toLocaleTimeString("en-US");
+                  const timeStamp = message.message.data.toDate().toLocaleTimeString("en-US", {hour: "2-digit", minute: "2-digit"});
 
                   return (
                     <UserMessage
