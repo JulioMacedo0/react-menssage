@@ -294,7 +294,9 @@ export const ChatContextProvider = ({ children }: ChatContextProps) => {
       photoUrl,
       unreadMessage,
     };
-    setCurrentChat(current);
+    if (currentChat?.chatId != chatId) {
+      setCurrentChat(current);
+    }
   };
 
   const getUser = async ({ e, userEmail }: GetUserType) => {
