@@ -29,7 +29,7 @@ export const UserChat = ({
       selected={selected}
       unreadMessage={unreadMessage}
       read={read}
-      onClick={() => onClick()}
+      onClick={onClick}
     >
       <div>
         <S.Profile>
