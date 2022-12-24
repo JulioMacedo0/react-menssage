@@ -38,7 +38,7 @@ export const Chat = () => {
     messagesEndRef,
     messageInput,
   } = useChat();
-  const [scrollOnBottom, setScrollOnBottom] = useState(false);
+  const [scrollOnBottom, setScrollOnBottom] = useState(true);
 
   const chatId = document.getElementById("chat");
 
@@ -63,7 +63,7 @@ export const Chat = () => {
   const handleScroll = async (event: React.UIEvent<HTMLDivElement>) => {
     const { scrollHeight, scrollTop, clientHeight } = event.currentTarget;
     const scrollPosition = scrollHeight - scrollTop - clientHeight;
-
+    console.log(scrollPosition);
     if (scrollPosition <= 0) {
       setScrollOnBottom(true);
 
@@ -168,7 +168,7 @@ export const Chat = () => {
       </S.Sidebar>
 
       <S.Chat>
-        {!scrollOnBottom && currentChat && (
+        {scrollCheck && !scrollOnBottom && currentChat && (
           <CaretCircleDown
             size={32}
             className="arrowDown"
